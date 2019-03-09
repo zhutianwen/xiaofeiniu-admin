@@ -45,10 +45,16 @@ Vue.filter("currency",(val)=>{
   return '￥'+val.toFixed(2)
 })
 
+Vue.filter('tableStatus',(val)=>{
+  if(val==1) return '空闲';
+  else if(vale==2) return '预定';
+  else if(vale==3) return '占用';
+  else if(vale==4) return '其他';
+})
  
 
 new Vue({
   router,
-  store,
-  render: h => h(App)
+  store,     //指定当前向，u唯一的Vuex存储仓库对象.其中保存着
+  render: h => h(App) //根据App组件创建<App></App>元素,挂载到#app内部
 }).$mount('#app')
