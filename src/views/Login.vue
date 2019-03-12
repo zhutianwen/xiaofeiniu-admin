@@ -21,7 +21,7 @@
            </el-form>
          </div>
       </el-card>
-      {{$store.state.globalSettings}}
+      <!--{{$store.state.globalSettings}}--> 
   </div>
 </template>
 

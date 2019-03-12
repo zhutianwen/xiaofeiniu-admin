@@ -32,6 +32,7 @@ export default new Router({
         {path:'/table/list',component:TableList},
         {path:'/table/add',component:TableAdd},
         {path:'/table/deltet',component:TableDelete},
+        
         {path:'/category/list',component:CategoryList},
         {path:'/category/add',component:CategoryAdd},
         {path:'/category/delete',component:CategoryDelete},
@@ -42,8 +43,8 @@ export default new Router({
         {path:'/dish/delete',component:DishDelete},
         {path:'/dish/update',component:DishUpdate},
   
-        {path:'/order/lsit',component:OrderList},
-        {path:'/security',component:Security}
+        {path:'/order/list',component:OrderList},
+        {path:'/security',component:Security},
       ]
   },
     {path:"*",component:NotFound},
