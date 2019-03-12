@@ -6,10 +6,10 @@
       <el-breadcrumb-item>类别列表</el-breadcrumb-item>
     </el-breadcrumb>
      <br>
-    <el-button type="primary" size="mini" @click="add">
+    <el-button type="primary" size="mini" @click="addCategory">
     添加新的菜品类别
     </el-button>
-      <br>
+      <br><br>
     <el-table :data="categoryList" stripe border>
        <el-table-column label="编号" prop="cid"></el-table-column>
        <el-table-column label="名称" prop="cname"></el-table-column>
@@ -37,6 +37,7 @@
         this.$confirm("操作不可撤销 确定",'提示',{type:"warning"}).then(()=>{
             var url=this.$store.state.globalSettings.apiUrl+'/admin/category/'+c.cid;
         this.$axios.delete(url).then((res)=>{
+          console.log(res.data)
            if(res.data.code==200){//数据库中删除成功
              this.categoryList.splice(i,1);//从模型数据库中删除
              this.$message.success('删除成功');
@@ -52,12 +53,43 @@
         
       },
       updateCategory(c,i){
-          console.log(c);
-        console.log(i);
+         this.$prompt('请输入修改菜品类别名:','提示',{inputValue:c.cname}).then(({value})=>{
+         // 获得用户的输入 调用数据API添加到数据库
+         var url=this.$store.state.globalSettings.apiUrl+'/admin/category';
+         this.$axios.put(url,{cname:value}).then((res)=>{
+          console.log(res)
+            if(res.data.code==200){
+              //数据库中修改成功
+              this.$message.success('修改成功')
+              //模型数据中修改成功
+              this.categoryList.push({cid:res.data.cid,cname:value})
+            }else{
+              this.$message.error('修改失败'+res.data.msg)
+            }
+         }).catch((err)=>{
+           console.log(err)
+         })
+        }).catch(()=>{
+        })
+         
       },
       addCategory(){
-        this.$prompt('请输入新的菜品类别名:','提示',{type:'info'}).then((result)=>{
-           console.log(reult);
+        this.$prompt('请输入新的菜品类别名:','提示',{type:'info'}).then(({value})=>{
+         // 获得用户的输入 调用数据API添加到数据库
+         var url=this.$store.state.globalSettings.apiUrl+'/admin/category';
+         this.$axios.post(url,{cname:value}).then((res)=>{
+           console.log(res)
+            if(res.data.code==200){
+              //数据库中添加成功
+              this.$message.success('添加成功')
+              //模型数据中添加成功
+              this.categoryList.push({cid:res.data.cid,cname:value})
+            }else{
+              this.$message.error('添加失败'+res.data.msg)
+            }
+         }).catch((err)=>{
+           console.log(err)
+         })
         }).catch(()=>{
         })
       }
@@ -65,6 +97,7 @@
   mounted(){
     var url=this.$store.state.globalSettings.apiUrl+'/admin/category';
     this.$axios.get(url).then((res)=>{
+      
         this.categoryList=res.data;
     }).catch((err)=>{
       console.log(err)
