@@ -20,7 +20,14 @@ export default {
   data(){
     return{
       imageUrl:'', //要显示的预览图片地址
-      uploadAction:this.$store.state.globalSettings.apiUrl+'/admin/dish/image'  //可处理文件上传的数据API
+      uploadAction:this.$store.state.globalSettings.apiUrl+'/admin/dish/image',  //可处理文件上传的数据API
+      formData:{
+        title:'',
+        imgUrl:'',
+        price:'',
+        detail:'',
+        categoryId:''
+      }
     }
   },
   methods: {
@@ -29,6 +36,7 @@ export default {
       //res: 服务器端返回的响应消息
       //file:从input[]
       console.log(res);
+      this.formData.imgUrl=res.fileName;
       this.imageUrl=URL.createObjectURL(file.raw);
       //把上传的文件编码为DataURL字符串
     }
